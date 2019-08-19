@@ -60,32 +60,34 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(s);
 
                 String weatherInfo = jsonObject.getString("weather");
-                String mainWeather = jsonObject.getString("main");
+                String mainInfo = jsonObject.getString("main");
 
-                JSONArray arr = new JSONArray(weatherInfo);
-                JSONArray arra = new JSONArray(mainWeather);
+                JSONArray weatherArray = new JSONArray(weatherInfo);
+                JSONArray mainArray = new JSONArray(mainInfo);
 
                 String main = null , description = null , temp = null;
-                String massage = null;
+                String message = null;
 
-                for (int i = 0; i < arr.length(); i++) {
-                    JSONObject jsonPart1 = arr.getJSONObject(i);
-                    JSONObject jsonPart2 = arra.getJSONObject(i);
+                for (int i = 0; i < weatherArray.length(); i++) {
+                    JSONObject jsonPart1 = weatherArray.getJSONObject(i);
                     main = jsonPart1.getString("main");
-                    temp = jsonPart2.getString("temp");
                     description = jsonPart1.getString("description");
-                    massage = "Temperature - " + temp + "\n" + "Main - " + main + "\n" + "Descitpion - " + description;
+                    message = "Main - " + main + "\n" + "Descitpion - " + description;
                 }
-
-                if (!massage.equals(""))
-                    resultTextView.setText(massage);
+                for(int j=0; j < mainArray.length();j++) {
+                    JSONObject jsonPart2 = mainArray.getJSONObject(j);
+                    temp = jsonPart2.getString("temp");
+                    message += "Temperature - " + temp;
+                }
+                if (!message.equals(""))
+                    resultTextView.setText(message);
                 else
                     Toast.makeText(getApplicationContext(),"Could not find weather",Toast.LENGTH_SHORT).show();
             }
         catch (Exception e)
             {
                 e.printStackTrace();
-                Toast.makeText(getApplicationContext(),"Could not find weather",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Could not finnd weather",Toast.LENGTH_SHORT).show();
             }
         }
     }
